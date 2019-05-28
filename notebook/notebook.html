@@ -142,7 +142,7 @@ Nothing
     <p class="tab">
     <a href="">My Project GDrive</a>
     <br>
-    <a href="https://hub.docker.com/r/">My Dockerhub</a>
+    <a href="https://hub.docker.com/r/xwinxu">My Dockerhub</a>
     <br>
     <a href="https://docs.google.com/document/d/1GeCVTbbiKlQurp6E7h926fYJneWMEEiGua7Anw6WouE/edit#heading=h.j9kk3zi9s6ax">Project Docs</a>
     <br>
@@ -337,6 +337,8 @@ Nothing
         <a href="https://docs.google.com/document/d/1DUXGYiSKB08tziqCUj3DvSXNiRHBB-pf1AKPSugfJbg/edit?usp=sharing">Docker Classroom Notes</a>
         <br>
         <a href="https://docs.docker.com/engine/reference/commandline/exec/">Docker CLI Commands</a>
+        <br>
+        <a href="https://training.play-with-docker.com/ops-s1-hello/#">Basic Docker knowledge/commands</a>
         <h3>Dockerfile</h3>
         <pre><code>
             ## Specify base image to use as starting point for new image created
@@ -351,6 +353,11 @@ Nothing
 
             ## What command to run when a container is started from the image, specifying command and run time args
             CMD ["nginx", "-g", "daemon off;"]
+
+            ## Basic command:
+            FROM alpine:3.8
+            ENTRYPOINT ["echo"]
+            CMD ["Hello World!"]
         </code></pre>
         Use <pre> docker image build </pre> to create new Docker image using the instructions in Dockerfile (make sure to use current dir as build context)
         <br>
@@ -376,7 +383,7 @@ Nothing
         <br>
         <h4>List images on Docker host:</h4>
         <pre>docker image ls -f reference="$DOCKERID/*"</pre>
-        - We push these images to a public repo so they can be ran from any Linux machine with Docker (image contains fully configured app)
+        - We push these images to a public repo so they can be ran from any Linux machine with Docker (image contains fully configured apps)
         </p>
     </div>
 
