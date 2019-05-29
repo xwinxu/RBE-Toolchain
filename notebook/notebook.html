@@ -140,13 +140,15 @@ Nothing
     <button class="collapsible">Links</button>
     <div class="content">
     <p class="tab">
-    <a href="">My Project GDrive</a>
-    <br>
-    <a href="https://hub.docker.com/r/xwinxu">My Dockerhub</a>
+    <a href="">GDrive</a>
     <br>
     <a href="https://docs.google.com/document/d/1GeCVTbbiKlQurp6E7h926fYJneWMEEiGua7Anw6WouE/edit#heading=h.j9kk3zi9s6ax">Project Docs</a>
     <br>
-    <a href="https://docs.google.com/document/d/13GSubKriOlnSxP78p098PjdIQDOrwptJzT0--18EROk/edit">EP Outline</a>
+    <a href="https://docs.docker.com/reference/" target="_blank">Docker Reference Docs</a>
+    <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile Ref</a>
+    <br>
+    <a href="https://docs.bazel.build/versions/master/skylark/lib/skylark-overview.html">Bazel APIs</a>
+    <a href="https://github.com/bazelbuild/examples/tree/master/rules">Bazel Examplars</a>
     </div>
 
     <button class="collapsible">Runs/Command Logs</button>
@@ -337,8 +339,6 @@ Nothing
         <a href="https://docs.google.com/document/d/1DUXGYiSKB08tziqCUj3DvSXNiRHBB-pf1AKPSugfJbg/edit?usp=sharing">Docker Classroom Notes</a>
         <br>
         <a href="https://docs.docker.com/engine/reference/commandline/exec/">Docker CLI Commands</a>
-        <br>
-        <a href="https://training.play-with-docker.com/ops-s1-hello/#">Basic Docker knowledge/commands</a>
         <h3>Dockerfile</h3>
         <pre><code>
             ## Specify base image to use as starting point for new image created
@@ -353,11 +353,6 @@ Nothing
 
             ## What command to run when a container is started from the image, specifying command and run time args
             CMD ["nginx", "-g", "daemon off;"]
-
-            ## Basic command:
-            FROM alpine:3.8
-            ENTRYPOINT ["echo"]
-            CMD ["Hello World!"]
         </code></pre>
         Use <pre> docker image build </pre> to create new Docker image using the instructions in Dockerfile (make sure to use current dir as build context)
         <br>
@@ -380,18 +375,18 @@ Nothing
         - Check by running <pre>docker rm --force &ltapp_name&gt</pre> without a bind mount
         <br>
         - Can check all images made, and can run them all simultaneously (just change the port number and name for each container ran)
-        <br>
-        <h4>List images on Docker host:</h4>
-        <pre>docker image ls -f reference="$DOCKERID/*"</pre>
-        - We push these images to a public repo so they can be ran from any Linux machine with Docker (image contains fully configured apps)
         </p>
     </div>
 
-    <button class="collapsible">May 28 2019</button>
+    <button class="collapsible">May 28/29 2019</button>
     <div class="content">
         <p>
-            - Hermetic toolchains: 
-
+            - Hermetic toolchains: hermetic builds are insensitive to the libraries/software installed on the build machine (build depend on known 
+            <br>version of build tools (compilers) and dependencies (libraries))
+            <br>
+            - Use xdot to visualize Bazel query graph
+            <pre>xdot &ltbazel query --nohost_deps --noimplicit_deps 'deps(//main:hello-world)' --output graph)</pre>
+            <a href="https://docs.google.com/document/d/1BH4SnpwerHFjFx-k7NO7exqV87BoDkxBI9rBReYOehs/edit?usp=sharing" target="_blank">Bazel Build Notes</a>
         </p>
     
 </div>
