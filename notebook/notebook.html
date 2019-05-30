@@ -131,7 +131,7 @@ table {
     <button class="collapsible">Notes (General)</button>
     <div class="content">
     <p>
-Nothing
+        - How does outputs work: <a href="https://docs.bazel.build/versions/master/skylark/lib/globals.html#rule.outputs">outputs ref</a>
     </p> </div>
 
 
@@ -387,8 +387,63 @@ Nothing
             - Use xdot to visualize Bazel query graph
             <pre>xdot &ltbazel query --nohost_deps --noimplicit_deps 'deps(//main:hello-world)' --output graph)</pre>
             <a href="https://docs.google.com/document/d/1BH4SnpwerHFjFx-k7NO7exqV87BoDkxBI9rBReYOehs/edit?usp=sharing" target="_blank">Bazel Build Notes</a>
+            <br>
+            <h3>Bazel Rule Summary</h3>
+            <pre><code>
+                - ctx = context (environment containing all dependencies and relevant resources to target eing called)
+                - ctx.actions: actions taken in the context (i.e. shell commands in different contexts, diff workdir and diff env variabels)
+                    - .actions: tracks what actions we are taking (Bazel is blind to I/O, so needs to know what is beings used to generate what files)
+                    - hence we pass in the commands along with the input and output files
+                    - so if we need file X.o, Bazel will figure out how to generate it by finding a target that outputs it
+                    - mnemonic is name for an action that is easy to recognize
+                    - use_default_shell = True
+                - Compiling: -c means compile BUT DO NOT LINK 
+                             -o is just an alternate output name you can specify 
+                - Linking: take the .o files and make them an executable by connecting them together 
+            </code></pre>
         </p>
-    
+    </div>
+
+   <button class="collapsible">May 30 2019</button>
+    <div class="content">
+        <p>
+        <h3>Bazel Provider Usage Summary</h3>
+        - For each rule that is depended on by another, the implementation function must return a CcInfo provider type (aka a struct)
+        <br>
+        - Define this struct as a global variable, instantiate a provider and set its fields to apt variable names
+        <br>
+        - Now when returning this, make sure to access the value in the ctx.attr field and pass it in to make this data visible to the next rule depending on it: <pre>return [heddy(x = ctx.attr.x)]</pre>
+        - This next rule down the chain will now be able to access the information in the provider, just be sure to add this into the attr of the rule definition: <pre>"deps": attr.label_list(providers = [heddy]),</pre>
+        <br>
+        Issue:<br>
+        - Why doesn't the shell command work?? Used this instead (check git commit) `ctx.actions.write(output = ctx.outputs.out, content = str(result))`
+        <br>
+
+        <h3><a href="https://docs.bazel.build/versions/master/skylark/rules.html">Quick Basel API Ref</a></h3>
+        <a href="https://docs.bazel.build/versions/master/skylark/lib/ctx.html#aspect_id">ctx</a>
+        <a href="https://docs.bazel.build/versions/master/skylark/rules.html#providers">providers</a>
+        <a href="https://docs.bazel.build/versions/master/skylark/lib/Label.html">label</a>
+        <a href="https://docs.bazel.build/versions/master/skylark/lib/Target.html">target</a>
+        <a href="https://docs.bazel.build/versions/master/skylark/lib/globals.html#rule.outputs">globals</a>
+        <a href="https://docs.bazel.build/versions/master/skylark/lib/actions.html#run">actions</a>
+        <a href="https://docs.bazel.build/versions/master/skylark/lib/attr.html#output">attr</a>
+        <a href="https://docs.bazel.build/versions/master/skylark/depsets.html">depsets</a>
+        <br>
+        <a href="https://docs.bazel.build/versions/master/skylark/lib/CcInfo.html">CcInfo (for linking etc)</a>
+        <a href="https://github.com/bazelbuild/rules_cc/blob/master/examples/my_c_archive/my_c_archive.bzl">CcInfo example</a>
+        <br>
+        <a href="https://github.com/bazelbuild/rules_cc/blob/master/examples/my_c_archive/BUILD">dependency chain example</a>
+
+        </p>
+    </div>
+
+   <button class="collapsible">May 31 2019</button>
+    <div class="content">
+        <p>
+            <h2><a href="https://github.com/bazelbuild/rules_docker">Bazel Container Image Rules</a></h2>
+        </p>
+    </div>
+
 </div>
 
 
