@@ -50,7 +50,7 @@ my_cc_library = rule(
     implementation = my_hello_impl,
     attrs = {
         "srcs": attr.label_list(allow_files = True),
-        "deps": attr.label_list(providers = [CcInfo]),
+#        "deps": attr.label_list(providers = [CcInfo]),
         "x": attr.string(default = ""), # default empty, i.e. not provided in BUILD
         # "x": attr.int(default = 0),
     }
