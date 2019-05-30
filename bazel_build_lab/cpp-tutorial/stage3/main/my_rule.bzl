@@ -1,6 +1,9 @@
+CcInfo = provider()
+
 def my_hello_impl(ctx):
   out = ctx.actions.declare_file("%s.size" % ctx.attr.name)
   compiler(ctx, ctx.files.srcs, out)
+  return [CcInfo()]
 
 def _quote(s):
     """Quotes the given string for use in a shell command.
