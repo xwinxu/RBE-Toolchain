@@ -44,18 +44,19 @@ def compiler(ctx, srcs, out):
 
 def _depender_impl(ctx):
   result = ""
-  # iterate through the dependencies attribute and accumulate the messages
+  # iterate through the dependencies attribute and accumulate the messages (1 giant string)
   for dep in ctx.attr.deps:
     result += dep[provInfo].content
   ctx.actions.write(output = ctx.outputs.out, content = str(result))
-  # to run shell command
+
+  # to run shell command, use:
   # ctx.actions.run_shell(
   #     cmd = "echo {}".format(result),
   #     use_default_shell_env = True,
   #     outputs = [ctx.outputs.lala],
   # )
 
-  # return the provider with result, visible to all other rules.
+  # return the provider with result, VISIBLE to all other rules.
   return [provInfo(content = result)]
 
 dependency_rule = rule(
@@ -72,7 +73,7 @@ depender_rule = rule(
     outputs = {"out": "%{name}.ou"},
     attrs = {
         # note: it is a list because there can be multiple providers & fields
-        # All deps (a type, not instantiated) MUST provide all lister providers.
+        # All deps (a type, not instantiated) MUST provide all listed providers.
         "deps": attr.label_list(providers = [provInfo]),
     }
 )
