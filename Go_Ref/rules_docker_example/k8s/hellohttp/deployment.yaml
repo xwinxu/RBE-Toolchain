@@ -1,0 +1,20 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: hello-http-dev
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hello-http-dev
+    spec:
+      containers:
+      - name: hello-http
+        image: hello-http-image:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+
+# And you can expose this deployment by
+#   kubectl expose deployment hello-http-dev --type=LoadBalancer --name=hello-http-svc
