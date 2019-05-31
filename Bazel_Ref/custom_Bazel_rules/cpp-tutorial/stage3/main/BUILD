@@ -7,14 +7,14 @@ To build run in workspace dir stage3:
 load("//main:my_rule.bzl", "my_cc_library", "my_echo_rule")
 
 dependency_rule(
-    name = "hello-greet1",
+    name = "msg-greet1",
     # srcs = ["hello-greet.cc"],
     content = "hello world!\n", # x is the message we write to file
 #    x = 0, # for integer
 )
 
 dependency_rule(
-    name = "hello-greet2",
+    name = "msg-greet2",
     # srcs = ["hello-greet.cc"], # no need srcs cuz just testing provider funcitonality
     content = "hello world!!\n",
 )
@@ -23,8 +23,8 @@ dependency_rule(
 depender_rule(
     name = "hello-world",
     deps = [
-        ":hello-greet1",
-        ":hello-greet2",
+        ":msg-greet1",
+        ":msg-greet2",
     ]
 )
 
