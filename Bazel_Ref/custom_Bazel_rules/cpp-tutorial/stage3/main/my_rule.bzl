@@ -54,6 +54,8 @@ def _depender_impl(ctx):
   #     use_default_shell_env = True,
   #     outputs = [ctx.outputs.lala],
   # )
+
+  # return the provider with result, visible to all other rules.
   return [provInfo(content = result)]
 
 dependency_rule = rule(
@@ -70,6 +72,7 @@ depender_rule = rule(
     outputs = {"out": "%{name}.ou"},
     attrs = {
         # note: it is a list because there can be multiple providers & fields
+        # All deps (a type, not instantiated) MUST provide all lister providers.
         "deps": attr.label_list(providers = [provInfo]),
     }
 )
