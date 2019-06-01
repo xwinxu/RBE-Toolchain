@@ -14,9 +14,17 @@ load(
 
 container_repositories()
 
+# import pull repository rule for usage
 load(
     "@io_bazel_rules_docker//container:container.bzl",
     "container_pull",
+)
+
+container_pull(
+    name = "go_hello_gcr",
+    registry = "gcr.io",
+    repository = "asci-toolchain-sandbox/foo",
+    digest = "sha256:a518273dd9d804947051a2a0f621b2ad0dc0d67c601978850c1d261a2ab2ad26",
 )
 
 # Pulling image

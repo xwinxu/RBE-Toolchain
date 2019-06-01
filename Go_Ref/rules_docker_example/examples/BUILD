@@ -31,6 +31,14 @@ container_image(
     layers = [":src"],
 )
 
+# making go_helloworld my base, can also :go_helloworld
+container_image(
+    name = "reverse",
+    base = "//examples:go_helloworld",
+    entrypoint = "",
+)
+
+# hello.go inside workspace/ directory
 container_layer(
     name = "src",
     directory = "/workspace",
@@ -44,13 +52,20 @@ container_push(
     format = "Docker",
     image = ":go_helloworld",
     registry = "gcr.io",
-    repository = "asci-toolchain-sandbox/winnie1st",
+    repository = "asci-toolchain-sandbox/winniepush",
     tag = "test",
 )
 
-container_pull(
+# @: go to project defined in workspace, default current project
+# //: go to root of such project
+# image: "file"
+container_image(
     name = "go_hello_gcr",
-    registry = "gcr.io",
-    repository = "asci-toolchain-sandbox/foo2",
-    digest = "sha256:a518273dd9d804947051a2a0f621b2ad0dc0d67c601978850c1d261a2ab2ad26",
+    base = "@go_hello_gcr//image",
+)
+
+# go_alpine "pre-pulled"/exists for usage
+container_image(
+    name = "example_try",
+    base = "@go_alpine//image",
 )

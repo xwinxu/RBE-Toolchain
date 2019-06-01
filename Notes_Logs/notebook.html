@@ -206,7 +206,7 @@ table {
         - Note: Accessing the name of the host when inside a container retrieves the container ID, which is like the process ID for a running executable.
         <br>
 
-        - Permission errors: make sure to do `newgrp docker` to run docker commands and escape the need for `sudo`
+        - Permission errors: make sure to do `newgrp docker` to run docker commands and escape the need for `sudo` OR (logout then back in: `sudo adduser $USER docker`)
         <br>
         Docker Commands
         <pre><code>
@@ -441,6 +441,7 @@ table {
     <div class="content">
         <p>
             <h2><a href="https://github.com/bazelbuild/rules_docker">Bazel Container Image Rules</a></h2>
+            <a href="https://tour.golang.org/welcome/2">A tour of Go></a>
         </p>
     </div>
 
