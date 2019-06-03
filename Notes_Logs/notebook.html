@@ -449,6 +449,54 @@ table {
             <br>
             <h3><a href="https://docs.google.com/document/d/180tVU_dL9eMJpwWpDg39sqQbN00X7LNVP78gE_B9vnc/edit?usp=sharing">Detailed rules-docker notes</a></h3>
             <h3><a href="https://docs.google.com/document/d/1BH4SnpwerHFjFx-k7NO7exqV87BoDkxBI9rBReYOehs/edit#">Bazel Reference</a></h3>
+            <h2>rules-docker Summary</h2>
+            <pre><code>
+                - A layer is an instance of an image
+                    - Docker image -> do stuff on Docker image
+                    - Don't add/delete files from image, but from a layer
+                - Every time a command is run -> new layer created
+                - WORKSPACE -> stuff in my "project" that I want other projects to call
+                - Digest -> after downloading, run the sha256 hash on entire WORKSPACE file, and compares that hash to the digest &lt=&gt EXPOSED
+                - @ubuntu1604/image &lt=&gt &ltproject&gt/&ltfile_to_get&gt -> WORKSPACE (container_image(0))
+                    - from going online, currently we see ubuntu1604 (outdated), it's actually 1804 we are getting (mislabelled) as the default
+                    - //image: use tag (image) to get 1604 version
+
+                - Repository rule (meta rule): container_pull (prefetch, blueprint), just pulls once
+                    - what can be pulled
+                    - exposes it as sth that exists (use 10x in 10 diff build rules, pull once, use it 10x)
+                    - all the info to download stuff from the server
+                    - pulls + provides it to anyone who wants to use it
+                - Regualr rule: container_image: uses a pulled image (unse in conjunction w/ pull)
+                    - this is an actual rule that can be called by Bazel
+                    - base=starting point to which you then exectute commands -> point to any container image (i.e. a file)
+                        - takes a path to an image
+                    - access image by going to project @ which it was downloaded
+                    - name="name of the pseudo project"
+                        - @: reference the project and access the image inside of it via //image (default, special way of accessing the only thing stored inside)
+
+                - Tagging: under the same server name, under same image name, specifies which particular image is wanted
+                    - sth you can come back to
+
+                - Layers: make up images, like each change or command to the file system, a currrent working image
+                    - stack up, gets birds eye view compresed (i.e. a new image)
+                    - can use this new iamge as another base, and can do stuff 
+                    - almost like version control, except there is no conflicts because no branching, so always one that is more "recent" -> use that one
+                    - layers contain "diffs" of what was done
+                    - i.e. versions of a file system: run test, compile code, download source code -> base image
+
+                - WORKSPACE: root of a project (aka where the WORKSPACE file is placed)
+                    - the // is "root" of project currently in
+                        - i.e. bazel == // in our case
+                            - // or bazel in our code example is the dir where docker stores its images (i.e. bazel/examples to access)
+                    - entrypoints can "override" if a layer of the image also has the entrypoint (go_helloworld and reverse example)
+                    - if same project, don't need @?
+                        - //examples:go_helloworld can just be :go_helloworld
+                    - inside difference projects (or packages), cannot access files "1 level above" (i.e. b/t packages)
+                        - use WORKSPACe file to allow targets in one BIULD to access stuff in the other server system 
+                    - WORKSPACE is essentially: in a project on WORKSPACE, depend on thing (i.e. a server on the internet)
+                        - tell the BUILD what things it may/can access outside of its immediate project
+
+            </code></pre>
 
             <a href="https://tour.golang.org/welcome/2">A tour of Go></a>
         </p>
@@ -456,7 +504,38 @@ table {
 
 </div>
 
+<button class="collapsible">Week 2: go-registry vs python</button>
+<div class="nestcontent">
+    <button class="collapsible">June 3 2019</button>
+    <div class="content">
+        <p>
+        </p>
+    </div>
+    
+    <button class="collapsible">June 4 2019</button>
+    <div class="content">
+        <p>
+        </p>
+    </div>
+    
+    <button class="collapsible">June 5 2019</button>
+    <div class="content">
+        <p>
+        </p>
+    </div>
 
+    <button class="collapsible">June 6 2019</button>
+    <div class="content">
+        <p>
+        </p>
+    </div>
+   
+    <button class="collapsible">June 7 2019</button>
+    <div class="content">
+        <p>
+        </p>
+    </div>
+</div>
 
 
 <script>
