@@ -6,6 +6,7 @@ load(
     "container_push",
 )
 
+# creates an iamge with the specifications
 container_image(
     name = "helloworld",
     base = "@ubuntu1604//image",
